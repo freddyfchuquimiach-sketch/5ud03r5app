@@ -39,8 +39,8 @@ public class HomeController {
         return "redirect:/usuarios";
     }
     
- // Solo para pruebas unitarias 
-    public List<Usuario> getUsuarios() {
+ // Solo para pruebas unitarias
+    public List<Usuario> getUsuariosForTest() {
         return usuarios;
     }
 	

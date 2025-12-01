@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -20,28 +23,32 @@ class UsuarioIntegrationTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void debeMostrarPaginaPrincipal() {
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/", String.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("Proyecto de Pruebas con Git");
+    void paginaPrincipalDebeCargarse() {
+        String body = restTemplate.getForObject("http://localhost:" + port + "/", String.class);
+        assertThat(body).contains("Proyecto de Pruebas con Git");
     }
 
     @Test
-    void debeMostrarListaUsuariosVaciaInicialmente() {
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/usuarios", String.class);
-        assertThat(response.getBody()).contains("No hay usuarios registrados");
+    void listaUsuariosVaciaAlInicio() {
+        String body = restTemplate.getForObject("http://localhost:" + port + "/usuarios", String.class);
+        assertThat(body).contains("No hay usuarios registrados");
     }
 
     @Test
-    void debeAgregarUsuarioYMostrarloEnLaLista() {
-        // Agregar usuario mediante POST
-        restTemplate.postForEntity("http://localhost:" + port + "/agregar-usuario",
-                "nombre=Ana&email=ana@test.com", String.class);
+    void agregarUsuarioYVerloEnLista() {
+        // POST con datos del formulario
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("nombre", "Carlos");
+        map.add("email", "carlos@test.com");
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
-        // Ver que ahora aparece en la lista
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/usuarios", String.class);
-        assertThat(response.getBody())
-                .contains("Ana")
-                .contains("ana@test.com");
+        restTemplate.postForEntity("http://localhost:" + port + "/agregar-usuario", request, String.class);
+
+        String lista = restTemplate.getForObject("http://localhost:" + port + "/usuarios", String.class);
+        assertThat(lista)
+                .contains("Carlos")
+                .contains("carlos@test.com");
     }
 }

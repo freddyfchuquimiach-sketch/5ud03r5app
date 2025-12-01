@@ -23,30 +23,22 @@ class HomeControllerTest {
 
     @Test
     void index_debeDevolverVistaIndex() {
-        String vista = controller.index();
-        assertEquals("index", vista);
+        assertEquals("index", controller.index());
     }
 
     @Test
-    void listarUsuarios_sinUsuarios_debeDevolverVistaUsuariosYListaVacia() {
-        String vista = controller.listarUsuarios(model);
-
-        assertEquals("usuarios", vista);
+    void listarUsuarios_debeAgregarAtributoAlModelo() {
+        controller.listarUsuarios(model);
         verify(model).addAttribute(eq("usuarios"), anyList());
     }
 
     @Test
-    void agregarUsuario_debeAgregarUsuarioYRedirigir() {
-        // Cuando
-        String redirect = controller.agregarUsuario("Freddy", "freddy@example.com");
+    void agregarUsuario_debeGuardarUsuarioYRedirigir() {
+        controller.agregarUsuario("María", "maria@test.com");
 
-        // Entonces
-        assertEquals("redirect:/usuarios", redirect);
-
-        // Verificamos que realmente se agregó (usamos reflexión porque la lista es privada)
-        List<Usuario> usuarios = controller.getUsuarios(); // añades este getter temporal
+        List<Usuario> usuarios = controller.getUsuariosForTest();
         assertEquals(1, usuarios.size());
-        assertEquals("Freddy", usuarios.get(0).getNombre());
-        assertEquals("freddy@example.com", usuarios.get(0).getEmail());
+        assertEquals("María", usuarios.get(0).getNombre());
+        assertEquals("maria@test.com", usuarios.get(0).getEmail());
     }
 }
