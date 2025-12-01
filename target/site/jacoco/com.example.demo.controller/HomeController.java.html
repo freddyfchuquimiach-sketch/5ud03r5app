@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HomeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Pruebas Git</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.controller</a> &gt; <span class="el_source">HomeController.java</span></div><h1>HomeController.java</h1><pre class="source lang-java linenums">package com.example.demo.controller;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.demo.model.Usuario;
+
+@Controller
+<span class="fc" id="L16">public class HomeController {</span>
+
+<span class="fc" id="L18">	private List&lt;Usuario&gt; usuarios = new ArrayList&lt;&gt;();</span>
+
+    @GetMapping(&quot;/&quot;)
+    public String index() {
+<span class="fc" id="L22">        return &quot;index&quot;;</span>
+    }
+
+    @GetMapping(&quot;/usuarios&quot;)
+    public String listarUsuarios(Model model) {
+<span class="fc" id="L27">        model.addAttribute(&quot;usuarios&quot;, usuarios);</span>
+<span class="fc" id="L28">        return &quot;usuarios&quot;;</span>
+    }
+
+    @PostMapping(&quot;/agregar-usuario&quot;)
+    public String agregarUsuario(String nombre, String email) {
+<span class="fc" id="L33">        Usuario usuario = new Usuario();</span>
+<span class="fc" id="L34">        usuario.setNombre(nombre);</span>
+<span class="fc" id="L35">        usuario.setEmail(email);</span>
+<span class="fc" id="L36">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy HH:mm&quot;);</span>
+<span class="fc" id="L37">        usuario.setFecha(LocalDateTime.now().format(formatter));</span>
+<span class="fc" id="L38">        usuarios.add(usuario);</span>
+<span class="fc" id="L39">        return &quot;redirect:/usuarios&quot;;</span>
+    }
+    
+ // Solo para pruebas unitarias
+    public List&lt;Usuario&gt; getUsuariosForTest() {
+<span class="fc" id="L44">        return usuarios;</span>
+    }
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
