@@ -38,14 +38,15 @@
                         </tr>
                     </thead>
                     <tbody>
+						<tr th:if="${usuarios.isEmpty()}">
+                            <td colspan="3" class="text-center">No hay usuarios registrados</td>
+                        </tr>
                         <tr th:each="usuario : ${usuarios}">
                             <td th:text="${usuario.nombre}"></td>
                             <td th:text="${usuario.email}"></td>
-							<td th:text="${usuario.fechaFormateada}"></td> <!-- nueva celda -->
+							<td th:text="${usuario.fecha}"></td> <!-- nueva celda -->
                         </tr>
-                        <tr th:if="${usuarios.isEmpty()}">
-                            <td colspan="3" class="text-center">No hay usuarios registrados</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>

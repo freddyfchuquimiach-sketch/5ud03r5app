@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +33,15 @@ public class HomeController {
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setEmail(email);
-        usuario.setFecha(LocalDateTime.now().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        usuario.setFecha(LocalDateTime.now().format(formatter));
         usuarios.add(usuario);
         return "redirect:/usuarios";
+    }
+    
+ // Solo para pruebas unitarias 
+    public List<Usuario> getUsuarios() {
+        return usuarios;
     }
 	
 }
