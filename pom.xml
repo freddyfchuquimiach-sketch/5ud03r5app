@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <groupId>com.example.demo</groupId>
-    <artifactId>4ud03r5app</artifactId>
+    <artifactId>Sud03r5app</artifactId>
     <version>1</version>
     <name>Pruebas Git</name>
     <description>Proyecto para realizar pruebas con Git</description>
