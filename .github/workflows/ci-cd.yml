@@ -1,4 +1,4 @@
-name: CI/CD con Java 21 y versionado semántico
+name: CI/CD Profesional - Tags por rama
 
 on:
   push:
@@ -18,7 +18,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Java 21
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -26,11 +25,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Compilar y ejecutar pruebas
+      - name: Compilar y pruebas
         run: mvn -B verify
 
-      # Generar versión semántica automática
-      - name: Generar versión
+      # Generar versión semántica
+      - name: Calcular versión
         id: version
         run: |
           if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
@@ -44,23 +43,21 @@ jobs:
             VERSION="0.0.${COUNT}-develop"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Versión generada → $VERSION"
+          echo "Versión: $VERSION"
 
-      # Login Docker Hub
-      - name: Login a Docker Hub
+      - name: Login Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Build y push
-      - name: Build y Push Docker image
+      - name: Build y Push (solo en main/develop)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/tags/')
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            freddych/5ud03r5app:latest
             freddych/5ud03r5app:${{ steps.version.outputs.version }}
-            freddych/5ud03r5app:${{ github.ref_name }}
-            freddych/5ud03r5app:${{ github.sha }}
+            ${{ github.ref_name == 'main' && 'freddych/5ud03r5app:latest' || '' }}
+            ${{ github.ref_name == 'develop' && 'freddych/5ud03r5app:develop' || '' }}
