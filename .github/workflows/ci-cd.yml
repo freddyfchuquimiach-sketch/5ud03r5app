@@ -60,7 +60,7 @@ jobs:
           context: .
           push: true
           tags: |
-            freddyfchuquimiach/5ud03r5app:latest
-            freddyfchuquimiach/5ud03r5app:${{ steps.version.outputs.version }}
-            freddyfchuquimiach/5ud03r5app:${{ github.ref_name }}
-            freddyfchuquimiach/5ud03r5app:${{ github.sha }}
+            freddych/5ud03r5app:latest
+            freddych/5ud03r5app:${{ steps.version.outputs.version }}
+            freddych/5ud03r5app:${{ github.ref_name }}
+            freddych/5ud03r5app:${{ github.sha }}
