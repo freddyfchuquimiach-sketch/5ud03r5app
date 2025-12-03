@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example.demo</groupId>
     <artifactId>Sud03r5app</artifactId>
-    <version>1</version>
+    <version>1.0.2</version>
     <name>Pruebas Git</name>
     <description>Proyecto para realizar pruebas con Git</description>
 
