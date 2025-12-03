@@ -13,11 +13,11 @@ minikube addons enable ingress 2>/dev/null || true
 
 # 3. Aplicar Blue (versión actual = latest de main)
 echo "Desplegando versión actual como BLUE..."
-sed "s|IMAGE_TAG|latest|g" deployment-template.yaml | sed "s/VERSION/blue/g" | kubectl apply -f -
+sed "s|IMAGE_TAG|latest|g" deployment-template.yaml | sed "s/version/blue/g" | kubectl apply -f -
 
 # 4. Aplicar Green (nueva versión)
 echo "Desplegando nueva versión como GREEN: $NEW_TAG"
-sed "s|IMAGE_TAG|$NEW_TAG|g" deployment-template.yaml | sed "s/VERSION/green/g" | kubectl apply -f -
+sed "s|IMAGE_TAG|$NEW_TAG|g" deployment-template.yaml | sed "s/version/green/g" | kubectl apply -f -
 
 # 5. Aplicar Service apuntando a Blue inicialmente
 kubectl apply -f service.yaml
