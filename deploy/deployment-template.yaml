@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-VERSION
+  name: app-version
   labels:
     app: 5ud03r5app
-    version: VERSION
+    version: version
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: 5ud03r5app
-      version: VERSION
+      version: version
   template:
     metadata:
       labels:
         app: 5ud03r5app
-        version: VERSION
+        version: version
     spec:
       containers:
       - name: app
@@ -30,7 +30,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service-VERSION
+  name: app-service-version
 spec:
   type: NodePort
   ports:
@@ -38,4 +38,4 @@ spec:
     targetPort: 8080
   selector:
     app: 5ud03r5app
-    version: VERSION
+    version: version
