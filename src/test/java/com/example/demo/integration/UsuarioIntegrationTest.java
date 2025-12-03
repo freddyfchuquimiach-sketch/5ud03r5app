@@ -25,7 +25,7 @@ class UsuarioIntegrationTest {
     @Test
     void paginaPrincipalDebeCargarse() {
         String body = restTemplate.getForObject("http://localhost:" + port + "/", String.class);
-        assertThat(body).contains("Proyecto de Pruebas con Git");
+        assertThat(body).contains("PROYECTO FINAL CURSO DEVOPS");
     }
 
     @Test
