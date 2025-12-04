@@ -3,7 +3,7 @@ set -e
 
 VERSION=$1
 if [[ -z "$VERSION" ]]; then
-  echo "Uso: ./release.sh 1.0.2"
+  echo "Uso: ./release.sh 1-0-2"
   exit 1
 fi
 
