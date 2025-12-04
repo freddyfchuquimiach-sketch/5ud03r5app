@@ -1,15 +1,15 @@
-# deploy/overlays/production/kustomization.yaml
+# deploy/overlays/production/kustomization.yaml – versión 100% correcta
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
   - ../blue
-  - ../_green
+  - ../green          # ← CORREGIDO
 
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-13        # ← CAMBIA ESTO en cada nuevo despliegue
+    newTag: 1-0-14    # ← cambias esta en cada despliegue
 
 patches:
   - target:
@@ -18,4 +18,4 @@ patches:
     patch: |
       - op: replace
         path: /spec/selector/version
-        value: blue          # ← tráfico inicial (puedes dejar blue o green)
+        value: blue       # o green, como prefieras al inicio
