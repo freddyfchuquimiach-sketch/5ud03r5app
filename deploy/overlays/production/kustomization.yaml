@@ -1,15 +1,13 @@
-# deploy/overlays/production/kustomization.yaml – versión 100% correcta
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
 resources:
   - ../blue
-  - ../green          # ← CORREGIDO
+  - ../green
+  - ../../base/service.yaml     # ← el único Service
+  - ../../base/ingress.yaml     # ← el único Ingress (si lo usas)
 
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-15    # ← cambias esta en cada despliegue
+    newTag: 1-0-16
 
 patches:
   - target:
@@ -18,4 +16,4 @@ patches:
     patch: |
       - op: replace
         path: /spec/selector/version
-        value: blue       # o green, como prefieras al inicio
+        value: blue
