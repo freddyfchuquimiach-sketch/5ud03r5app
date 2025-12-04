@@ -1,15 +1,15 @@
-# deploy/base/service.yaml
+# deploy/base/service.yaml  ← VERSIÓN FINAL QUE FUNCIONA
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service             # ← nombre fijo y único
+  name: app-service-fixed          # ← nombre que NO recibe suffix
   labels:
     app: 5ud03r5app
 spec:
-  type: LoadBalancer            # o NodePort en Minikube
+  type: LoadBalancer
   ports:
-  - port: 80
-    targetPort: 8080
+    - port: 80
+      targetPort: 8080
   selector:
     app: 5ud03r5app
-    version: blue               # ← valor inicial (luego se cambia con patch)
+    version: blue                  # tráfico inicial
