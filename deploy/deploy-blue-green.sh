@@ -43,7 +43,7 @@ NODE_PORT=$(kubectl get svc app-service-$IDLE -o jsonpath='{.spec.ports[0].nodeP
 echo ""
 echo "PRUEBA LA NUEVA VERSIÓN ($NEW_TAG) AQUÍ (sin afectar producción):"
 echo "   http://$(minikube ip):$NODE_PORT"
-echo "   o ejecuta: kubectl port-forward svc/app-service-$IDLE 8080:80"
+echo "   o ejecuta: kubectl port-forward svc/app-service-$IDLE 8081:8080"
 echo ""
 
 read -p "¿La nueva versión funciona bien? (s/n): " ans
