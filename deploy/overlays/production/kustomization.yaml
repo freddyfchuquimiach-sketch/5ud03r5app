@@ -1,22 +1,24 @@
-# deploy/overlays/production/kustomization.yaml  ← ¡¡CON apiVersion!!
+# deploy/overlays/production/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
   - ../blue
   - ../green
-  # ← NO vuelvas a incluir base aquí → ya lo traen blue y green
 
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-17                # ← cambias solo esta línea por versión
+    newTag: 1-0-18
 
 patches:
   - target:
       kind: Service
-      name: app-service
+      name: app-service-fixed        # ? mismo nombre que arriba
     patch: |
       - op: replace
+        path: /metadata/name
+        value: app-service           # ? lo renombra al nombre final deseado
+      - op: replace
         path: /spec/selector/version
-        value: blue                 # ← tráfico inicial (blue o green)
+        value: blue
