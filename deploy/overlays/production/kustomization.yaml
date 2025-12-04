@@ -9,7 +9,7 @@ resources:
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-14    # ← cambias esta en cada despliegue
+    newTag: 1-0-15    # ← cambias esta en cada despliegue
 
 patches:
   - target:
