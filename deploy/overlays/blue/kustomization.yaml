@@ -1,14 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
   - ../../base
 
-namespace: default
-
 nameSuffix: -blue
 
-images:
-  - name: freddych/5ud03r5app
-    newName: freddych/5ud03r5app
-    newTag: latest    # ? esta se sobrescribe en production/
+commonLabels:
+  version: blue
 
 patches:
   - target:
