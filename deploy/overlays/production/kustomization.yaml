@@ -1,13 +1,18 @@
+# deploy/overlays/production/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
   - ../blue
   - ../green
 
-# AQUÍ LE DICES QUÉ VERSIÓN USAR (esto es lo que reemplaza al parámetro del script)
+# ← ESTA ES LA LÍNEA QUE FALTABA (OBLIGATORIA)
 images:
   - name: freddych/5ud03r5app
-    newTag: 1-0-10   # ← CAMBIA ESTO CADA VEZ QUE QUIERAS DESPLEGAR
+    newName: freddych/5ud03r5app   # ← imprescindible
+    newTag: 1-0-11                 # ← esta es la que cambias cada vez
 
-# El servicio empieza apuntando a green (o blue, da igual)
+# Tráfico inicial (puedes cambiarlo después con kubectl patch o en la UI)
 patches:
   - target:
       kind: Service
@@ -15,4 +20,4 @@ patches:
     patch: |
       - op: replace
         path: /spec/selector/version
-        value: green   # ← tráfico inicial (cámbialo después en Argo CD UI)
+        value: green   # o blue, como prefieras
