@@ -1,13 +1,16 @@
+# deploy/overlays/production/kustomization.yaml  ← ¡¡CON apiVersion!!
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
   - ../blue
   - ../green
-  - ../../base/service.yaml     # ← el único Service
-  - ../../base/ingress.yaml     # ← el único Ingress (si lo usas)
+  # ← NO vuelvas a incluir base aquí → ya lo traen blue y green
 
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-16
+    newTag: 1-0-17                # ← cambias solo esta línea por versión
 
 patches:
   - target:
@@ -16,4 +19,4 @@ patches:
     patch: |
       - op: replace
         path: /spec/selector/version
-        value: blue
+        value: blue                 # ← tráfico inicial (blue o green)
