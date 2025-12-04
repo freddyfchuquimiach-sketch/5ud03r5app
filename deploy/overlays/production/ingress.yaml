@@ -1,11 +1,9 @@
-# deploy/overlays/production/ingress.yaml  ? NUEVO ARCHIVO
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
-    # opcional: nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
   - host: 5ud03r5app.local
