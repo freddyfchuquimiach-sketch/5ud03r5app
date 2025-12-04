@@ -4,15 +4,13 @@ kind: Kustomization
 
 resources:
   - ../blue
-  - ../green
+  - ../_green
 
-# ← ESTA ES LA LÍNEA QUE FALTABA (OBLIGATORIA)
 images:
   - name: freddych/5ud03r5app
-    newName: freddych/5ud03r5app   # ← imprescindible
-    newTag: 1-0-11                 # ← esta es la que cambias cada vez
+    newName: freddych/5ud03r5app
+    newTag: 1-0-13        # ← CAMBIA ESTO en cada nuevo despliegue
 
-# Tráfico inicial (puedes cambiarlo después con kubectl patch o en la UI)
 patches:
   - target:
       kind: Service
@@ -20,4 +18,4 @@ patches:
     patch: |
       - op: replace
         path: /spec/selector/version
-        value: green   # o blue, como prefieras
+        value: blue          # ← tráfico inicial (puedes dejar blue o green)

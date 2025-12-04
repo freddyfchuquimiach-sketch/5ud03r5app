@@ -1,12 +1,16 @@
+# deploy/base/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service
+  name: app-service          # ← NOMBRE FIJO (único en todo el clúster)
+  labels:
+    app: 5ud03r5app
 spec:
-  type: LoadBalancer
+  type: LoadBalancer         # o NodePort si usas Minikube sin metal-lb
   ports:
-  - port: 80
-    targetPort: 8080
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
   selector:
     app: 5ud03r5app
-    version: blue   # Cambia a green cuando estés listo
+    version: blue            # ← valor inicial (luego lo cambiamos con patch)
