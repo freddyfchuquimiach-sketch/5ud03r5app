@@ -3,7 +3,7 @@ name: CI/CD Profesional - Tags por rama
 on:
   push:
     branches: [ main, develop ]
-    tags: [ 'v*.*.*' ]
+    tags: [ 'v*-*-*' ]
   pull_request:
     branches: [ main, develop ]
 
@@ -35,12 +35,12 @@ jobs:
           if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           elif [[ "${{ github.ref_name }}" == "main" ]]; then
-            LAST=$(git describe --tags --abbrev=0 --match "v*.*.*" 2>/dev/null || echo "v0.0.0")
+            LAST=$(git describe --tags --abbrev=0 --match "v*-*-*" 2>/dev/null || echo "v0-0-0")
             VERSION=$(echo $LAST | awk -F. '{print $1"."$2"."$3+1}')
             VERSION=${VERSION#v}
           else
             COUNT=$(git rev-list --count HEAD)
-            VERSION="0.0.${COUNT}-develop"
+            VERSION="0-0-${COUNT}-develop"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Versión: $VERSION"
