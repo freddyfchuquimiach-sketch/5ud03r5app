@@ -1,12 +1,10 @@
-# deploy/overlays/blue/kustomization.yaml
+# deploy/overlays/blue/kustomization.yaml   ? VUELVE A ESTO (funciona)
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
-  - ../../base/deployment.yaml   # ? SOLO el deployment
+  - ../../base                 # ? carpeta completa
 
 nameSuffix: -blue
-
 labels:
   - pairs:
       version: blue
