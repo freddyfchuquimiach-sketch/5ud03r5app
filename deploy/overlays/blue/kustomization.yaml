@@ -1,0 +1,25 @@
+resources:
+  - ../../base
+
+namespace: default
+
+nameSuffix: -blue
+
+images:
+  - name: freddych/5ud03r5app
+    newName: freddych/5ud03r5app
+    newTag: latest    # ? esta se sobrescribe en production/
+
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: replace
+        path: /metadata/labels/version
+        value: blue
+      - op: replace
+        path: /spec/template/metadata/labels/version
+        value: blue
+      - op: replace
+        path: /spec/selector/matchLabels/version
+        value: blue
