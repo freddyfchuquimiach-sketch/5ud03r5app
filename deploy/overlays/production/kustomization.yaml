@@ -1,0 +1,18 @@
+resources:
+  - ../blue
+  - ../green
+
+# AQUÍ LE DICES QUÉ VERSIÓN USAR (esto es lo que reemplaza al parámetro del script)
+images:
+  - name: freddych/5ud03r5app
+    newTag: 1-0-10   # ← CAMBIA ESTO CADA VEZ QUE QUIERAS DESPLEGAR
+
+# El servicio empieza apuntando a green (o blue, da igual)
+patches:
+  - target:
+      kind: Service
+      name: app-service
+    patch: |
+      - op: replace
+        path: /spec/selector/version
+        value: green   # ← tráfico inicial (cámbialo después en Argo CD UI)
