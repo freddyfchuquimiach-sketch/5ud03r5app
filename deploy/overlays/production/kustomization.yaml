@@ -1,24 +1,22 @@
-# deploy/overlays/production/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
   - ../blue
   - ../green
+  - ../../base/service.yaml     # ← el único Service
+  - ../../base/ingress.yaml     # ← si lo tienes
 
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-18
+    newTag: 1-0-19               # ← cambias solo esta línea
 
 patches:
   - target:
       kind: Service
-      name: app-service-fixed        # ? mismo nombre que arriba
+      name: app-service
     patch: |
       - op: replace
-        path: /metadata/name
-        value: app-service           # ? lo renombra al nombre final deseado
-      - op: replace
         path: /spec/selector/version
-        value: blue
+        value: blue                 # tráfico inicial

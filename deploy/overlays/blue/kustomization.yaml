@@ -3,21 +3,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base                # carpeta completa (permitido)
+  - ../../base/deployment.yaml   # ? SOLO el deployment
 
 nameSuffix: -blue
 
-labels:                       # ? ya no commonLabels (evita el warning)
+labels:
   - pairs:
       version: blue
-
-patches:
-  - target:
-      kind: Deployment
-    patch: |
-      - op: replace
-        path: /spec/selector/matchLabels/version
-        value: blue
-      - op: replace
-        path: /spec/template/metadata/labels/version
-        value: blue
