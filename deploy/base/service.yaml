@@ -1,8 +1,8 @@
-# deploy/base/service.yaml  ← VERSIÓN FINAL QUE FUNCIONA
+# deploy/base/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service-fixed          # ← nombre que NO recibe suffix
+  name: app-service            # nombre final, único
   labels:
     app: 5ud03r5app
 spec:
@@ -12,4 +12,4 @@ spec:
       targetPort: 8080
   selector:
     app: 5ud03r5app
-    version: blue                  # tráfico inicial
+    version: blue              # tráfico inicial
