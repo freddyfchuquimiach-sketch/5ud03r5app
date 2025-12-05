@@ -2,37 +2,55 @@
 set -e
 
 VERSION=$1
+TAG="v$VERSION"
+
 if [[ -z "$VERSION" ]]; then
   echo "Uso: ./release.sh 1-0-2"
   exit 1
 fi
 
-echo "Creando release v$VERSION..."
+# Verificar que no haya cambios sin commit
+if ! git diff-index --quiet HEAD --; then
+  echo "ERROR: Hay cambios sin commit. Haz commit o stashing antes de continuar."
+  exit 1
+fi
 
-# 1. Asegurar que estamos limpios
+# Verificar que el tag no exista
+if git rev-parse "$TAG" >/dev/null 2>&1; then
+  echo "ERROR: El tag $TAG ya existe."
+  exit 1
+fi
+
+echo "==> Iniciando release $TAG..."
+
+# Asegurar develop actualizado
 git checkout develop
-git pull origin develop
+git pull --rebase origin develop
+
+# Asegurar main actualizado
 git checkout main
-git pull origin main
+git pull --rebase origin main
 
-# 2. Merge develop → main
-git merge --no-ff develop -m "release: v$VERSION"
+# Merge develop → main
+echo "==> Merge develop → main..."
+git merge --no-ff develop -m "release: $TAG"
 
-# 3. Crear tag
-git tag -a "v$VERSION" -m "Release v$VERSION"
+# Crear tag
+echo "==> Creando tag $TAG..."
+git tag -a "$TAG" -m "Release $TAG"
 
-# 4. Subir main + tag
+# Push main y tag
+echo "==> Subiendo main y tag..."
 git push origin main
-git push origin "v$VERSION"
+git push origin "$TAG"
 
-# 5. ¡AUTOMÁTICO! Merge main → develop (lo que querías)
-echo "Sincronizando main → develop..."
+# Sincronizar develop
+echo "==> Sincronizando main → develop..."
 git checkout develop
-git merge main -m "chore: sincronizar release v$VERSION desde main"
+git merge main -m "chore: sincronizar release $TAG desde main"
 git push origin develop
 
 echo ""
-echo "¡RELEASE v$VERSION COMPLETADO!"
-echo "   main  → v$VERSION + latest"
-echo "   develop ← actualizado con el release"
-echo "   Docker Hub → v$VERSION y latest actualizado en <2 min"
+echo "===================================="
+echo " RELEASE $TAG COMPLETADO CON ÉXITO "
+echo "===================================="

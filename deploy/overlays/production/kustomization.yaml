@@ -4,12 +4,13 @@ kind: Kustomization
 resources:
   - ../blue
   - ../green
-  - ingress.yaml                 # ← el único Ingress
+  - ../../base/service.yaml     # ← único Service
+  - ingress.yaml                # ← único Ingress
 
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-23
+    newTag: 1-0-10
 
 patches:
   - target:
