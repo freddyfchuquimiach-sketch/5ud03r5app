@@ -6,7 +6,7 @@ spec:
   type: LoadBalancer
   selector:
     app: 5ud03r5app
-    version: blue   # tráfico inicial a Blue
+    version: REPLACEME   # ← Se rellenará con active.yaml
   ports:
   - port: 80
     targetPort: 8080

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-green
+  labels:
+    app: 5ud03r5app
+    version: green
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: 5ud03r5app
+      version: green
+  template:
+    metadata:
+      labels:
+        app: 5ud03r5app
+        version: green
+    spec:
+      containers:
+      - name: app
+        image: freddych/5ud03r5app:latest
+        ports:
+        - containerPort: 8080
