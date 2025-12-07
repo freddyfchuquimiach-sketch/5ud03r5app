@@ -18,11 +18,11 @@ spec:
         version: green
     spec:
       containers:
-        - name: app
-          image: freddych/5ud03r5app  # Kustomize reemplazará el tag
-          ports:
-            - containerPort: 8080
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
+      - name: app
+        image: freddych/5ud03r5app:latest  # Este tag se reemplaza con el script
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi

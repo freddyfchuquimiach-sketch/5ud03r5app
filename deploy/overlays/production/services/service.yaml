@@ -5,10 +5,10 @@ metadata:
   labels:
     app: 5ud03r5app
 spec:
-  type: LoadBalancer
   selector:
     app: 5ud03r5app
     version: blue  # Inicialmente apunta a blue
   ports:
-    - port: 80
-      targetPort: 8080
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer

@@ -7,12 +7,20 @@ resources:
   - services/service.yaml
   - ingress/ingress.yaml
 
-# Definimos la versión de la imagen que quieres desplegar
-images:
-  - name: freddych/5ud03r5app
-    newTag: 1-0-35   # <-- Cambia este valor según la versión que quieras
-
 configMapGenerator:
   - name: active-env
     literals:
-      - active=blue   # Valor inicial, indica cuál entorno está activo
+      - active=blue   # Valor inicial del entorno activo
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: active-env
+      fieldPath: data.active
+    targets:
+      - select:
+          kind: Service
+        fieldPaths:
+          - spec.selector.version
+        options:
+          create: false
