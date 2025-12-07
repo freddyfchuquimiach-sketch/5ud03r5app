@@ -9,18 +9,8 @@ resources:
 
 configMapGenerator:
   - name: active-env
-    behavior: merge
     literals:
-      - active=blue   # valor inicial
-
-vars:
-  - name: ACTIVE_VERSION
-    objref:
-      kind: ConfigMap
-      name: active-env
-      apiVersion: v1
-    fieldref:
-      fieldpath: data.active
+      - active=blue
 
 replacements:
   - source:
@@ -34,4 +24,3 @@ replacements:
           - spec.selector.version
         options:
           create: false
-        replacement: "${ACTIVE_VERSION}"
