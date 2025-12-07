@@ -1,15 +1,12 @@
-# deploy/base/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service            # nombre final, único
-  labels:
-    app: 5ud03r5app
+  name: app-service
 spec:
   type: LoadBalancer
-  ports:
-    - port: 80
-      targetPort: 8080
   selector:
     app: 5ud03r5app
-    version: blue              # tráfico inicial
+    version: blue   # tráfico inicial a Blue
+  ports:
+  - port: 80
+    targetPort: 8080
