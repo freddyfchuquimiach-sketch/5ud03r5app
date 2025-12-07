@@ -1,18 +1,31 @@
-# deploy/overlays/production/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../blue
-  - ../green
-  - ../../base/service.yaml   # único Service
-  - ingress.yaml              # único Ingress
+  - ../../base/deployment.yaml
+  - ../../base/service.yaml
+  - ingress.yaml
+
+# Generamos blue
+nameSuffix: -blue
+commonLabels:
+  version: blue
+
+# Generamos green duplicando el deployment
+replicas:
+  - name: app-blue
+    count: 2
+
+# Componente que crea green
+components:
+  - components/green.yaml
 
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-25             # ← cambias solo esta línea
+    newTag: 1-0-26
 
+# Tráfico inicial a blue
 patches:
   - target:
       kind: Service
