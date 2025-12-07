@@ -1,8 +1,14 @@
+# deploy/overlays/green/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
-  - ../../base/deployment.yaml   # ? SOLO deployment
+  - ../../base
+  - -service.yaml
+  - -ingress.yaml
+
 nameSuffix: -green
+
 labels:
   - pairs:
       version: green

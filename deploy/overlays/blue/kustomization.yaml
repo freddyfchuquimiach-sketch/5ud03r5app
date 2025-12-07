@@ -1,8 +1,14 @@
+# deploy/overlays/blue/kustomization.yaml  ← VERSIÓN 100% CORRECTA Y ACTUAL
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
-  - ../../base/deployment.yaml   # ? SOLO deployment
+  - ../../base
+  - -service.yaml      # ← así, con dos guiones y sin comillas
+  - -ingress.yaml      # ← igual
+
 nameSuffix: -blue
+
 labels:
   - pairs:
       version: blue
