@@ -1,16 +1,17 @@
+# deploy/overlays/production/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
   - ../blue
   - ../green
-  - ../../base/service.yaml     # ← único Service
-  - ingress.yaml                # ← único Ingress
+  - ../../base/service.yaml   # único Service
+  - ingress.yaml              # único Ingress
 
 images:
   - name: freddych/5ud03r5app
     newName: freddych/5ud03r5app
-    newTag: 1-0-24
+    newTag: 1-0-25             # ← cambias solo esta línea
 
 patches:
   - target:
