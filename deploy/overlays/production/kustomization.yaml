@@ -12,7 +12,7 @@ configMapGenerator:
   - name: active-env
     literals:
       - active=blue         # entorno actualmente activo
-      - new-version=1-0-30  # versión a desplegar en inactivo
+      - new-version=1-0-33  # versión a desplegar en inactivo
 
 replacements:
   # Service apunta automáticamente al entorno activo
