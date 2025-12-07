@@ -2,19 +2,36 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base
+  - deployments/deployment-blue.yaml
+  - deployments/deployment-green.yaml
+  - services/service.yaml
+  - ingress/ingress.yaml
 
-# Blue deployment activo
-commonLabels:
-  version: blue
-replicas:
-  - name: app
-    count: 2
+configMapGenerator:
+  - name: active-env
+    behavior: merge
+    literals:
+      - active=blue   # valor inicial
 
-# Green deployment para nueva versión
-components:
-  - components/green
+vars:
+  - name: ACTIVE_VERSION
+    objref:
+      kind: ConfigMap
+      name: active-env
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.active
 
-# Imagen actualizada por ArgoCD Image Updater
-images:
-  - name: freddych/5ud03r5app
+replacements:
+  - source:
+      kind: ConfigMap
+      name: active-env
+      fieldPath: data.active
+    targets:
+      - select:
+          kind: Service
+        fieldPaths:
+          - spec.selector.version
+        options:
+          create: false
+        replacement: "${ACTIVE_VERSION}"
