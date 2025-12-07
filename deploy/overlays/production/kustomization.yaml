@@ -10,7 +10,7 @@ resources:
 # Definimos la versión de la imagen que quieres desplegar
 images:
   - name: freddych/5ud03r5app
-    newTag: 1-0-34   # <-- Cambia este valor según la versión que quieras
+    newTag: 1-0-35   # <-- Cambia este valor según la versión que quieras
 
 configMapGenerator:
   - name: active-env
