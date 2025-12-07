@@ -1,29 +1,23 @@
-# deploy/base/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app                     # ← nombre base (Kustomize le añadirá -blue o -green)
-  labels:
-    app: 5ud03r5app
-    version: blue                 # ← valor por defecto, los overlays lo sobrescriben
+  name: app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: 5ud03r5app
-      version: blue               # ← también se sobrescribe
   template:
     metadata:
       labels:
         app: 5ud03r5app
-        version: blue               # ← importante que coincida con el selector
     spec:
       containers:
       - name: app
-        image: freddych/5ud03r5app   # ← sin tag, Kustomize lo cambia con newTag
+        image: freddych/5ud03r5app:latest
         ports:
         - containerPort: 8080
         resources:
           requests:
-            cpu: "100m"
-            memory: "256Mi"
+            cpu: 100m
+            memory: 256Mi
