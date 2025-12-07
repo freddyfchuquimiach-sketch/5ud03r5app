@@ -18,7 +18,7 @@ spec:
         version: green
     spec:
       containers:
-      - name: app
-        image: freddych/5ud03r5app:latest
-        ports:
-        - containerPort: 8080
+        - name: app
+          image: freddych/5ud03r5app:${NEW_VERSION}  # dinámico
+          ports:
+            - containerPort: 8080
