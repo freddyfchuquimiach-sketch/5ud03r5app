@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: switch-active-env
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: switch
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              # Detectar entorno activo
+              ACTIVE=$(kubectl get configmap active-env -o jsonpath='{.data.active}')
+              if [ "$ACTIVE" = "blue" ]; then
+                INACTIVE=green
+              else
+                INACTIVE=blue
+              fi
+
+              # Actualizar el Deployment inactivo con la nueva versión
+              NEW_VER=$(kubectl get configmap active-env -o jsonpath='{.data.new-version}')
+              kubectl set image deployment/app-$INACTIVE app=freddych/5ud03r5app:$NEW_VER
+
+              # Cambiar entorno activo en ConfigMap
+              kubectl patch configmap active-env -p "{\"data\":{\"active\":\"$INACTIVE\"}}"

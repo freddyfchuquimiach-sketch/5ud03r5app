@@ -6,13 +6,13 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: 5ud03r5app.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: app-service
-            port:
-              number: 80
+    - host: 5ud03r5app.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-service
+                port:
+                  number: 80

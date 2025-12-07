@@ -6,13 +6,16 @@ resources:
   - deployments/deployment-green.yaml
   - services/service.yaml
   - ingress/ingress.yaml
+  - jobs/switch-active-env.yaml
 
 configMapGenerator:
   - name: active-env
     literals:
-      - active=blue
+      - active=blue         # entorno actualmente activo
+      - new-version=1-0-30  # versión a desplegar en inactivo
 
 replacements:
+  # Service apunta automáticamente al entorno activo
   - source:
       kind: ConfigMap
       name: active-env
@@ -24,3 +27,12 @@ replacements:
           - spec.selector.version
         options:
           create: false
+
+vars:
+  - name: NEW_VERSION
+    objref:
+      kind: ConfigMap
+      name: active-env
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.new-version
